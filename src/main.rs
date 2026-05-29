@@ -1,3 +1,4 @@
+mod audio;
 mod core_game_engine;
 mod fmt_helpers;
 mod game_modding;
@@ -106,6 +107,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Console prologue: Initialization.
     // FIXME: Handle io::Error? If not, why not?
     let _e = app.initialize_terminal_state();
+    audio::AudioController::play_welcome_melody(app.settings.audio);
 
     // Run main application.
     let app_result = app.run();
@@ -651,6 +653,7 @@ impl<W: Write> Application<W> {
                 ),
                 Menu::Pause => self.run_menu_pause(),
                 Menu::Settings => self.run_menu_settings(),
+                Menu::AdjustAudio => self.run_menu_adjust_audio(),
                 Menu::AdjustGraphics => self.run_menu_adjust_graphics(),
                 Menu::AdjustKeybinds => self.run_menu_adjust_keybinds(),
                 Menu::AdjustGameplay => self.run_menu_adjust_gameplay(),
